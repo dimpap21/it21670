@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<title>TravellersGuide Welcome</title>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${message eq 'city-exists'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> This
+		city already exists!
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show"
+		th:if="${message eq 'city-notfound'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> Cant find city with that name!
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show"
+		th:if="${message eq 'current_city-notfound'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> Cant find your currnet city !
+	</div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${message eq 'city-new'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-check-circle"></i><strong>Success!</strong>
+		City added to your options !
+	</div>
+	<div class="container">
+		<br>
+		<div id="dest">
+		<div class="card shadow">
+			<div id="center" style ="font-size:x-large"  class="card-header">
+					<i class="fa fa-plus-circle"></i> New Destination
+					<br>Let's find the best destination for you according to your
+				criteria
+				</div>
+				<div class="card-body">
+			<form name="newDest" th:action="@{SaveTraveller}"  method="post" onSubmit="myFunction()">
+				<div class="form-group">
+					<i class="fa fa-user-o"></i>You are:
+					<div class="form-check-inline">
+						<label class="form-check-label" for="radio1"> <input
+							type="radio" class="form-check-input" id="radio1" name="role"
+							value="Traveller" checked>Traveller
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<label class="form-check-label" for="radio2"> <input
+							type="radio" class="form-check-input" id="radio2" name="role"
+							value="Business">Business
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<label class="form-check-label" for="radio3"> <input
+							type="radio" class="form-check-input" id="radio3" name="role"
+							value="Tourist">Tourist
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<i class="fa fa-location-arrow"></i> Your City: <input type="text"
+						class="form-control" id="city" placeholder="Enter your city"
+						required="required" name="city">
+				</div>
+				<div class="form-group">
+					<i class="fa fa-sun-o"></i> Prefered Weather:<select name="prefWeather"
+						class="form-control" id="prefWeather">
+						<option>Clouds</option>
+						<option>Clear</option>
+						<option>Rain</option>
+					</select>
+				</div>
+				<i class="fa fa-balance-scale"></i> How much do you prefer museums:<input
+					type="range" class="custom-range" min="0" max="100" name="prefMuseums"
+					id="prefMuseums"> <i class="fa fa-balance-scale"></i> How
+				much do you prefer Cafes/Restaurants/Bars:<input type="range" name="prefCafes"
+					class="custom-range" min="0" max="100" id="prefCafes">
+				<div class="form-group">
+					<i class="fa fa-globe"></i> Prefered CIties (hold shift to select
+					more than one):<select  class="form-control" multiple="multiple" 
+						 id="prefCities" required="required"
+						name="prefCities">
+						<option th:each="city : ${cities}" th:value="${{city.name}}"
+							th:text="${city.name}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					Do you wish to avoid destinations with rain?
+					<div class="form-check-inline">
+						<label class="form-check-label" for="norainy"> <input
+							type="radio" class="form-check-input" id="norainy" name="rainy"
+							value="Yes" checked>Yes
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<label class="form-check-label" for="rainy"> <input
+							type="radio" class="form-check-input" id="rainy" name="rainy"
+							value="No">No
+						</label>
+					</div>
+				</div>
+				<input    
+					class="btn btn-primary"  type="submit" value="Submit">
+			</form>
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	<br>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script>
+function myFunction(ect){
+			$("#animation").removeClass("hidden");
+			$(".loader-wrapper").fadeIn;
+			}
+</script>
+</html>

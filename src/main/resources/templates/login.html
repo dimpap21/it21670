@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<title>TravellersGuide Login</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+		<ul class="navbar-nav">
+			<div class="navbar-header">
+				<span id="spanid" class="navbar-brand"><i class="fa fa-plane"></i>
+					TravellersGuide</span>
+			</div>
+		</ul>
+		<ul class="navbar-nav ml-auto">
+			<li><form class="navbar-form pull-right" th:action="@{/login}"
+					method="post" >
+					<label for="username" id="navLinksId">Username :</label> <input
+						type="text" name="username" class="span2" placeholder="Username"
+						required="required" value=""> <label for="password"
+						id="navLinksId">Password :</label> <input type="password"
+						name="password" class="span2" placeholder="Password"
+						required="required" />
+					<button type="submit" class="btn btn-success btn-custom">
+						<i class="fa fa-sign-in"></i>Login
+					</button>
+				</form></li>
+		</ul>
+	</nav>
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${param.error}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Warning</strong>
+		Invalid username or password.
+	</div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${saveUser eq 'success'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-check-circle"></i> <strong>User
+			registered Successfully</strong> Please Login
+	</div>
+
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${saveUser eq 'exist-name'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> User
+		name already used !!!
+	</div>
+
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${saveUser eq 'exist-email'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> User
+		email already used !!!
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show"
+		th:if="${saveUser eq 'fail'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong>
+		Unexpected error !!!
+	</div>
+
+	<div class="container">
+	    <div class="row">
+		<div class="col-md-6 mt-md-0 mt-3">
+			<br>
+			<p style="font-size: xx-large;">Welcome to TravellersGuide site!</p>
+			<br>
+			<p>We find the best destination for you according to your
+				criteria.</p>
+			<br>
+			<p>If you are looking for the best destination for you. You are
+				at the right place.</p>
+		</div>
+		<div class="col-md-6 mb-md-0 mb-3">
+			<form th:object="${reqUser}" th:action="@{/register}"
+				method="post">
+				<h1 style=text-align:center;>Sign Up :</h1>
+				<label>Username :</label> <input th:field="*{username}" type="text"
+					name="register_username" class="form-control"
+					placeholder="Username" required="required" value="" /> <label>Email
+					:</label> <input th:field="*{email}" type="email" name="register_email"
+					class="form-control" placeholder="Email" required="required"
+					value="" /> <label>Password :</label> <input
+					th:field="*{password}" class="form-control" id="pass"
+					placeholder="Password" required="required" name="password1"
+					onkeyup='check();' type="password" /> <span id='message2'></span><br>
+				<label>Password Confirm</label> <input required="required"
+					class="form-control" placeholder="Confirm password" id="pass2"
+					name="password2" onkeyup='check();' type="password" /> <span
+					id='message'></span><br> <label>Full Name</label> <input
+					th:field="*{name}" class="form-control" type="text"
+					name="register_name" id="name" placeholder="name"
+					required="required" /> <label>Age :</label> <input
+					th:field="*{age}" type="number" class="form-control"
+					name="register_age" id="age" placeholder="age" required="required" />
+				<br> <input type="submit" value="Register"
+					class="btn btn-success btn-custom" />
+			</form>
+			<br>
+		</div>
+	</div>
+	</div>
+		<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+<script type="text/javascript">
+	function showPass1() {
+		var x = document.getElementById("pass");
+		if (x.type === "password") {
+			x.type = "text";
+		} else {
+			x.type = "password";
+		}
+	}
+	function showPass2() {
+		var x = document.getElementById("pass2");
+		if (x.type === "password") {
+			x.type = "text";
+		} else {
+			x.type = "password";
+		}
+	}
+	var check = function() {
+		var pass1 = document.getElementById('pass');
+		var pass2 = document.getElementById('pass2');
+		var message = document.getElementById('message');
+		var message2 = document.getElementById('message2');
+		var goodColor = "#66cc66";
+		var badColor = "#ff6666";
+		console.log(document.getElementById('pass').value);
+		if (pass1.value == pass2.value) {
+			message.style.color = goodColor;
+			message.innerHTML = 'Matching';
+		} else {
+			message.style.color = badColor;
+			message.innerHTML = 'Not matching';
+		}
+		if (pass1.value.length > 5) {
+			message2.style.color = goodColor;
+			message2.innerHTML = "Character number ok!"
+		} else {
+			message2.style.color = badColor;
+			message2.innerHTML = " You have to enter at least 6 digit!"
+		}
+	}
+	function checkPassword() {
+		password1 = document.getElementById('pass').value;
+		password2 = document.getElementById('pass2').value;
+		// If Not same return False.     
+		if (password1 != password2) {
+			return false;
+		}
+		if (password1.length < 5) {
+			return false;
+		}
+	}
+</script>
+</html>

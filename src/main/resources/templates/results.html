@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<title>TravellersGuide Welcome</title>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<div id="results" >
+			<br> <br>
+			
+			<div id="center" class="card" >
+		
+			<div class="card-header">
+					<i class="fa fa-paper-plane"></i> The suggested Destination
+					according to your criteria is :
+				</div>
+				<h5 class="card-title"  id="bold" th:text="${visit_city.name}" ></h5>
+				<div class="card-body">
+					Museums: <span id="resultMuseums" th:text="${visit_city.museums}"></span> <br><br>
+					Cafes/Restaurants/Bars: <span id="resultCafes" th:text="${visit_city.cafesRestaurantsBars}"></span> <br><br>
+					Weather: <span id="resultWeather"th:text="${visit_city.weather}"></span> 
+					</div>
+					<a
+						th:href="@{UserEntry}" class="btn btn-primary">Go Back</a>
+				</div>
+				
+			</div>
+		</div>
+		<br>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script type="text/javascript">$(window).load(function() {
+	$(".loader-wrapper").fadeOut("Slow");
+});</script>
+</html>
+	
+	

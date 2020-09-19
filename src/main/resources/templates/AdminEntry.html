@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<title>TravellersGuide Welcome Admin</title>
+</head>
+<body>
+	<div th:replace="fragments/AdminHeader :: header"></div>
+	<div class="container">
+	<br>
+	<br>
+          <div class="jumbotron">
+          <h1 class="display-3">Welcome Admin !!</h1>
+          <p>Here you can delete users 
+          .Add Cities to database and delete them!</p>
+          <p><a class="btn btn-primary btn-lg" th:href="@{Users}" role="button">Users Table »</a></p>
+      <div></div></div></div>
+	
+	
+	
+	
+	
+	
+	
+		<div th:replace="fragments/AdminFooter :: footer"></div>
+	
+	</body>
+	</html>
+	

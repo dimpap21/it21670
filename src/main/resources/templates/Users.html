@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TravellersGuide MyDestinations</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/AdminHeader :: header"></div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${message eq 'deleted'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-check-circle"></i><strong>Success!</strong>
+		user deleted !
+	</div>
+<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${param.error}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Warning</strong>
+		Invalid username or password.
+	</div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${saveUser eq 'success'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-check-circle"></i><strong>User
+			registered Successfully</strong> 
+	</div>
+
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${saveUser eq 'exist-name'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> User
+		name already used !!!
+	</div>
+
+	<div class="alert alert-warning alert-dismissible fade show"
+		th:if="${saveUser eq 'exist-email'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> User
+		email already used !!!
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show"
+		th:if="${saveUser eq 'fail'}">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong>
+		Unexpected error !!!
+	</div>
+	<div class="container">
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-plus-circle"></i>  New user</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					<form  class="px-4 py-3" th:action="@{AddUser}"  th:object="${reqUser}"  method="post">
+					<label>Username :</label> <input th:field="*{username}" type="text"
+					name="register_username" class="form-control"
+					placeholder="Username" required="required" value="" /> <label>Email
+					:</label> <input th:field="*{email}" type="email" name="register_email"
+					class="form-control" placeholder="Email" required="required"
+					value="" /> <label>Password :</label> <input
+					th:field="*{password}" class="form-control" id="pass"
+					placeholder="Password" required="required" name="password1"
+				    type="password" />
+				    <label>Full Name</label> <input
+					th:field="*{name}" class="form-control" type="text"
+					name="register_name" id="name" placeholder="name"
+					required="required" /> <label>Age :</label> <input
+					th:field="*{age}" type="number" class="form-control"
+					name="register_age" id="age" placeholder="age" required="required" />
+					
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+							<input type="submit" value="Add"
+						class="btn btn-success btn-custom" />
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br> <br>
+		<div class="col">
+			<div class="card shadow">
+				<div class="card-header border-0">
+					<h3 class="mb-0">
+						<i class="fa fa-users"></i> Users
+					</h3>
+					
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#exampleModal" style="float: right;">
+						<i class="fa fa-user-plus"></i> Add User
+					</button>
+					
+				</div>
+				<div class="table-responsive">
+					<table id="example" class="table align-items-center table-flush">
+						<thead class="thead-light">
+							<tr>
+								<th class="th-sm" scope="col">Username</th>
+								<th class="th-sm" scope="col">Email</th>
+								<th class="th-sm" scope="col">Full name</th>
+								<th class="th-sm" scope="col">Age</th>
+								<th class="th-sm" scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="user : ${users}">
+								<tr>
+									<td th:text="${user.username}">" "</td>
+									<td th:text="${user.email}">" "</td>
+									<td th:text="${user.name}">" "</td>
+									<td th:text="${user.age}">" "</td>
+									<td><a class="btn btn-primary"
+										th:href="@{'DeleteUser/' + ${user.id}}"><i class="fa fa-user-times"></i>Delete</a></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div th:replace="fragments/AdminFooter :: footer"></div>
+</body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#example').DataTable();
+	});
+</script>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TravellersGuide MyDestinations</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css"    href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<br> <br>
+		  <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0"><i class="fa fa-paper-plane"></i> My Destinations</h3>
+            </div>
+            <div class="table-responsive">
+              <table id="example"class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="th-sm" scope="col">City</th>
+					<th class="th-sm" scope="col">PreferdWeather</th>
+					<th class="th-sm" scope="col">Prefered Museums %</th>
+					<th class="th-sm" scope="col">Prefered CafesRestaurantsBars %</th>
+					<th class="th-sm" scope="col">Prefered Cities</th>
+					<th class="th-sm" scope="col">Destination</th>
+                  </tr>
+                </thead>
+                <tbody>
+				<th:block th:each="traveller : ${travellers}">
+					<tr>
+						<td th:text="${traveller.city}">" "</td>
+						<td th:text="${traveller.preferedWeather}">" "</td>
+						<td>
+						<div class="d-flex align-items-center">
+                        <span class="mr-2" th:text=" @{${traveller.preferedMuseums}}+'%'  "></span>
+                        <div>
+                          <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100"  th:style=" 'width:'+ @{${traveller.preferedMuseums}}+'%;' "></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+						<div class="d-flex align-items-center">
+                        <span class="mr-2" th:text="@{${traveller.preferedCafesRestaurantsBars}}+'%'"></span>
+                        <div>
+                          <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"  th:style=" 'width:'+ @{${traveller.preferedCafesRestaurantsBars}}+'%;' "></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+						<td th:text="${traveller.preferedCities}">" "</td>
+						<td th:text="${traveller.visit}">" "</td>
+
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	</div>
+	<br><br><br><br><br><br><br>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable();
+  });
+</script>
+</html>
+

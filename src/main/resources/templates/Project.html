@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TravellersGuide MyDestinations</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="icon" type="image/png" href="/img/flavicon.png" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${file eq 'deleted'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-check-circle"></i><strong>Succes</strong> File cleared!
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show"
+		th:if="${message eq 'city-notfound'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-exclamation-circle"></i> <strong>Error!</strong> Cant
+		find city with that name!
+	</div>
+	<div class="alert alert-success alert-dismissible fade show"
+		th:if="${message eq 'city-new'}">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<i class="fa fa-check-circle"></i><strong>Success!</strong> City added
+		to file !
+	</div>
+	<div class="container">
+	<br>
+	<br>
+		<div class="row">
+			<div class="col"
+				Style="background-color: #FAFAFA; border: 1px solid #EFEFEF; padding: 10px; border-radius: 3px;">
+				<h1 style="text-align:center;">Insert city to file:</h1>
+				<form class="px-4 py-3" th:action="@{GetCities}" method="post">
+				<div class="form-group">
+					<label for="name">CityName:</label>
+					
+						<input type="text" name="name" class="span2"
+							placeholder="City Name" required="required" value="">
+					</div>
+					<input type="submit" value="Add City to file "
+						class="btn btn-success btn-custom" />
+				</form>
+				<p>If you want to clear the file</p><a th:href="@{ClearFile}">Click here !</a>
+				<br>
+				<h1 style="text-align:center;">City Days Length</h1>
+				<ul class="list-group">
+					<li class="list-group-item" th:each="item : ${items}"
+						th:text="${item}"></li>
+				</ul>
+			</div>
+			<div class="col"
+				Style="background-color: #FAFAFA; border: 1px solid #EFEFEF; padding: 10px; border-radius: 3px;">
+					<p>If you want to see the city with the bigger Day </p><a th:href="@{GetSmallerDayCity}">Click here !</a>
+					<div th:if="${city !=null}" >
+					<p th:text="${city}"></p>
+					</div>
+			</div>
+		</div>
+		<br>
+		
+	</div>
+	<br>
+	<br>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</html>
